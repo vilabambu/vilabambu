@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Vila Bambu · Abrindo WhatsApp…</title>
+
+<!-- Google tag (gtag.js) — conta a conversao "Contact" no carregamento desta pagina -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18364479986"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18364479986');
+</script>
+<!-- ================================================================ -->
+
+<style>
+  :root{ --bg:#141008; --cream:#f4ead8; --gold:#c9a659; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{
+    background:var(--bg); color:var(--cream);
+    font-family:'Poppins','Segoe UI',system-ui,sans-serif;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    min-height:100vh; text-align:center; padding:24px; gap:22px;
+  }
+  .brand{ font-size:15px; letter-spacing:3px; color:var(--gold); text-transform:uppercase; }
+  .msg{ font-size:18px; line-height:1.5; max-width:320px; }
+  .spinner{
+    width:44px; height:44px; border-radius:50%;
+    border:3px solid rgba(201,166,89,.25); border-top-color:var(--gold);
+    animation:spin .9s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .fallback{
+    margin-top:8px; display:inline-block; padding:14px 26px;
+    background:var(--gold); color:var(--bg); text-decoration:none;
+    border-radius:14px; font-weight:600; font-size:15px;
+  }
+  .hint{ font-size:13px; opacity:.6; max-width:280px; }
+</style>
+</head>
+<body>
+  <div class="brand">Vila Bambu</div>
+  <div class="spinner"></div>
+  <div class="msg">Abrindo o WhatsApp para falarmos sobre o <b>Chalé Broto de Bambu</b>…</div>
+
+  <script>
+    // --- Configuração do redirecionamento ---
+    var numero = "5532985118322";
+    var texto  = "Olá! Vim pelo anúncio do Google e tenho interesse no Chalé Broto de Bambu (banheira e vista Caparaó). Poderiam me passar a disponibilidade?";
+    var destino = "https://wa.me/" + numero + "?text=" + encodeURIComponent(texto);
+
+    // Botão manual (caso o redirect automático não abra)
+    document.write(
+      '<a class="fallback" href="' + destino + '">Abrir o WhatsApp</a>' +
+      '<div class="hint">Se não abrir em alguns segundos, toque no botão acima.</div>'
+    );
+
+    // A conversão "Contact" do Google Ads é do tipo "carregamento de página":
+    // ela conta sozinha quando esta página (/broto) carrega, porque a Google tag
+    // (AW-18364479986) no <head> dispara no load. Não precisa de evento/label.
+    //
+    // Então: damos um instante pra a tag registrar o carregamento e redirecionamos.
+    var jaFoi = false;
+    function irParaWhatsApp(){ if(!jaFoi){ jaFoi = true; window.location.replace(destino); } }
+
+    // 1,2s é suficiente pra a tag disparar antes do redirect.
+    setTimeout(irParaWhatsApp, 1200);
+  </script>
+</body>
+</html>
