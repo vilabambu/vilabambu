@@ -263,6 +263,8 @@ footer.pe .assinatura{font-family:var(--serif);font-size:16px;color:rgba(244,242
 @keyframes sobe{from{transform:translateY(100%)}to{transform:none}}
 .drawer h3{margin-bottom:6px}
 .drawer__sub{font-size:14px;color:var(--cinza);margin-bottom:20px}
+.selo-preco{display:inline-block;background:var(--madeira);color:#fff;font-size:13px;font-weight:600;padding:6px 14px;border-radius:20px;margin-bottom:14px}
+.drawer__aviso{font-size:12.5px;color:var(--cinza);margin:12px 0 0;line-height:1.5}
 .escolhido{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(31,80,50,.07);border-radius:2px;margin-bottom:14px}
 .escolhido b{font-family:var(--serif);font-size:19px;font-weight:400}
 .escolhido button{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--musgo);font-weight:600;text-decoration:underline;flex:none}
@@ -556,6 +558,7 @@ footer.pe .assinatura{font-family:var(--serif);font-size:16px;color:rgba(244,242
 <dialog class="drawer" id="drawer" aria-label="Reservar pelo WhatsApp">
   <div class="drawer__box">
     <button class="fechar" data-fechar aria-label="Fechar">×</button>
+    <span class="selo-preco" id="selo-preco">Diárias a partir de R$520</span>
     <h3>Falar no WhatsApp</h3>
     <p class="drawer__sub">Escolha o chalé e, se já souber, as datas. Reserva direta: 5% abaixo do total do Airbnb. Sem datas? É só enviar mesmo assim.</p>
 
@@ -575,6 +578,7 @@ footer.pe .assinatura{font-family:var(--serif);font-size:16px;color:rgba(244,242
       <div class="campo"><label for="f-in">Entrada</label><input type="date" id="f-in"></div>
       <div class="campo"><label for="f-out">Saída</label><input type="date" id="f-out"></div>
     </div>
+    <p class="drawer__aviso">As datas acima são só uma referência para você — não temos calendário automático aqui no site. A disponibilidade real a gente confirma na conversa.</p>
     <button class="btn btn--solid btn--wide" data-enviar data-ev="enviar_zap" style="margin-top:6px">Enviar no WhatsApp</button>
     <ul class="confianca" style="margin-bottom:0">
       <li><b>50% no Pix</b> para confirmar, 50% até um dia antes do check-in.</li>
@@ -588,7 +592,8 @@ footer.pe .assinatura{font-family:var(--serif);font-size:16px;color:rgba(244,242
 const CONFIG = {
   whatsapp:"5532985118322",
   airbnb:{ no:"1259602523339689895", broto:"1726098521112478600" },
-  nomes:{ no:"Nó de Bambu", broto:"Broto de Bambu" }
+  nomes:{ no:"Nó de Bambu", broto:"Broto de Bambu" },
+  precos:{ no:520, broto:580 }
 };
 /* ══════════ OFERTA (lightbox) ══════════
    ativo:false → o lightbox não aparece. Nada mais precisa ser mexido.
@@ -675,11 +680,17 @@ function sincroniza(){
   if(fOut.value) e += `&check_out=${fOut.value}`;
   linkAir.href = air(fChale.value, e + "&adults=2");
 }
+const seloPreco = document.getElementById("selo-preco");
+function atualizaPreco(){
+  seloPreco.textContent = `Diárias a partir de R$${CONFIG.precos[fChale.value]}`;
+}
 function confirmado(sim){
   boxEsc.hidden = !sim;
   campoChale.hidden = sim;
   if(sim) nomeEsc.textContent = CONFIG.nomes[fChale.value];
+  atualizaPreco();
 }
+fChale.addEventListener("change", atualizaPreco);
 document.getElementById("trocar").addEventListener("click",()=>confirmado(false));
 
 fIn.addEventListener("change",()=>{                     /* saída = entrada + 2 noites */
